@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <pthread.h>
+
+void *prime1(int check)
+{
+	int i ,j,flag=0;
+	for(i=0; i<check; i++)
+	{
+		flag=0;
+		for(int j=0; j<i;j++)
+		{
+			if(i%j==0)
+			flag++;
+		}
+	if(flag==2)
+	printf("%d prima\n", check);
+	else
+	printf("%d bukan prima\n",check);			
+}
+
+void *prime2()
+{
+	int i ,j,flag=0;
+	for(i=0; i<check; i++)
+	{
+		flag=0;
+		for(int j=0; j<i;j++)
+		{
+			if(i%j==0)
+			flag++;
+		}
+	if(flag==2)
+	printf("%d prima\n", check);
+	else
+	printf("%d bukan prima\n",check);
+}
+
+void *prime3()
+{
+	int i ,j,flag=0;
+	for(i=0; i<check; i++)
+	{
+		flag=0;
+		for(int j=0; j<i;j++)
+		{
+			if(i%j==0)
+			flag++;
+		}
+	if(flag==2)
+	printf("%d prima\n", check);
+	else
+	printf("%d bukan prima\n",check);
+}
+
+void main ()
+{
+	pthread_t t1, t2, t3; 
+	pthread_create(&t1, NULL, prime1, NULL);
+	pthread_create(&t2, NULL, prime2, NULL);
+	pthread_create(&t3, NULL, prime3, NULL);
+
+	char inputprime;
+	
+	scanf("%[^\n]", &inputprime);
+	
+}
+
