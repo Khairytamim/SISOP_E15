@@ -1,67 +1,37 @@
 #include <stdio.h>
 #include <pthread.h>
 
+int  temp=0;
 void *prime1(void *args)
 {
-	int i ,j,flag=0;
-	for(i=0; i<check; i++)
+	int i,j,*cek;
+	cek=(int *)args;
+	for(i=2; i<=*cek; i++)
 	{
-		flag=0;
-		for(int j=0; j<i;j++)
+		int flag=0;
+		for(j=1; j<=i;j++)
 		{
 			if(i%j==0)
 			flag++;
 		}
-	if(flag==2)
-	printf("%d ", check);
-			
-}
-
-void *prime2(void *args)
-{
-	int i ,j,flag=0;
-	for(i=0; i<check; i++)
-	{
-		flag=0;
-		for(int j=0; j<i;j++)
+		if(flag==2)
 		{
-			if(i%j==0)
-			flag++;
+			temp++;
+			//return temp;
 		}
-	if(flag==2)
-	printf("%d ", check);
-}
-
-void *prime3(void *args)
-{
-	int i ,j,flag=0;
-	for(i=0; i<check; i++)
-	{
-		flag=0;
-		for(int j=0; j<i;j++)
-		{
-			if(i%j==0)
-			flag++;
-		}
-	if(flag==2)
-	printf("%d ", check);
+	}	
 }
 
 void main ()
 {
-	pthread_t t1, t2, t3; 
-	pthread_create(&t1, NULL, prime1, NULL);
-	pthread_create(&t2, NULL, prime2, NULL);
-	pthread_create(&t3, NULL, prime3, NULL);
-
-	int inputprime[100];
-	
-	for(int i =0; i<5; i++)
+	pthread_t t1; 
+	int data,loop;
+	scanf("%d", &data);
+	for(loop=1;loop<data;loop++)
 	{
-		scanf("%d", &inputprime[i]);
+		pthread_create(&t1, NULL, prime1,(void *)&loop);
+		pthread_join(t1,NULL);
 	}
-	pthread_join(t1,NULL);
-	pthread_join(t2,NULL);
-	pthread_join(t3,NULL);
+	printf("%d", temp);
 }
 
