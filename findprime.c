@@ -4,34 +4,36 @@
 int  temp=0;
 void *prime1(void *args)
 {
-	int i,j,*cek;
+	int i,j,*cek,flag=0;
+	//printf("nilai  = flag %d\n",flag);
 	cek=(int *)args;
-	int flag=0;
 	for(i=2; i<=*cek; i++)
 	{
+		flag=0;
 		for(j=1; j<=i;j++)
 		{
 			if(i%j==0)
 			flag++;
 		}
+		//printf("nilai flag %d\n",flag);
+		if(flag==2)
+		{
+			//flag=0;
+			temp++;
+			//printf("%d tempnya adalah %d\n",*cek,temp);
+			//return temp;
+		}
 	}
-	if(flag==2)
-	{
-		temp++;
-		//return temp;
-	}	
 }
 
 void main ()
 {
 	pthread_t t1; 
 	int data,loop;
+	printf("INPUT LIMIT: ");
 	scanf("%d", &data);
-	for(loop=1;loop<data;loop++)
-	{
-		pthread_create(&t1, NULL, prime1,(void*)&loop);
-		pthread_join(t1,NULL);
-	}
-	printf("%d ", temp);
+	pthread_create(&t1, NULL, prime1,(void*)&data);
+	pthread_join(t1,NULL);
+	printf("JUMLAH BILANGAN PRIMA SEBELUM %d = %d\n",data, temp);
 }
 
