@@ -29,10 +29,10 @@ void *prime1(void *args)
 void main ()
 {
 	pthread_t t1; 
-	int data,loop;
+	int data;
 	printf("INPUT LIMIT: ");
 	scanf("%d", &data);
-	pthread_create(&t1, NULL, prime1,(void*)&data);
+	pthread_create(&t1, NULL, prime1, (void *)&data);
 	pthread_join(t1,NULL);
 	printf("JUMLAH BILANGAN PRIMA SEBELUM %d = %d\n",data, temp);
 }
