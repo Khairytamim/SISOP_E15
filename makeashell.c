@@ -40,12 +40,12 @@ int main()
         			if (!arg) fprintf(stderr, "argumen cd masih kurang\n");
         			else chdir(arg);
       			} 
-			else if (strcmp(cmd, "exit") == 0) 
+			
+    		}
+		if (strcmp(cmd, "exit") == 0) 
 			{
         			break;
     			} 
-			else system(line);
-    		}
 			
 			char *token; //split command into separate things
 			token=strtok(line," ");
@@ -72,14 +72,13 @@ int main()
 			if(pid==0) //child
 			{
 				wait();
-				if(strcmp(argv[argc-1],"&")==0) argv[argc-1]='\0';
+				//if(strcmp(argv[argc-1],"&")==0) argv[argc-1]='\0';
 				execvp(fullpath,argv);
 			}
 			else	//parent
 			{
-				if(strcmp(argv[argc-1],"&")==0);
-				else wait();
-			//	printf("Keluar dari Child\n");//menunjukkan dia ada di proses parent
+				//if(strcmp(argv[argc-1],"&")==0);
+				wait();
 			}
 		}
 }
