@@ -1,44 +1,33 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
 #include <signal.h>
+#include <errno.h>
 
-#ifdef _WIN32
-#include <windows.h>
-#define chdir _chdir
-
-#else
-#include <unistd.h>
-#endif
-
-#define MAX_LENGTH 1024
+#define MAXLENGTH 1024
 #define DELIMS " \t\r\n"
-
-
-/* 	menjalankan perintah-perintah usr/bin dan bin
-	tidak berhenti saat ctrlc+ctlrz
-	bisa menjalankan beberapa perintah secara background jika belakang perintah ada &
-	without system function
-*/
 
 void signalhandler(int signum)
 {
 	printf("ketik exit untuk keluar program\n");
 }
-int main(int argc, char *argv[]) 
-{
-	signal(SIGINT, signalhandler);
-	signal(SIGTSTP, signalhandler);		
-		
 
-  	char *cmd;
-  	char line[MAX_LENGTH];
-	while (1) 
+int main()
 	{
-    		printf("masukkan perintah ");
+		signal(SIGINT, signalhandler);
+		signal(SIGTSTP, signalhandler);	
 
-    		if (!fgets(line, MAX_LENGTH, stdin)) break;
+		char *cmd;
+		char line[MAXLENGTH]; //get command line
+		char *argv[100]; //user command
+		char *path="/bin/"; //set path at bin
+		char fullpath[20]; //full file path
+		int argc; //argument count
+		while(1)
+		{
+			printf("Masukkan perintah ");
+
+    		if (!fgets(line, MAXLENGTH, stdin)) break;
 
     		if ((cmd = strtok(line, DELIMS))) 
 		{
@@ -56,10 +45,41 @@ int main(int argc, char *argv[])
         			break;
     			} 
 			else system(line);
-
-      			if (errno) perror("perintah gagal\n");
     		}
-	}
-	printf("\n");	
-	return 0;
+			
+			char *token; //split command into separate things
+			token=strtok(line," ");
+			int i=0;
+			while(token!=NULL)
+			{
+				argv[i]=token;
+				token=strtok(NULL," ");
+				i++;
+			}
+			argv[i]=NULL; //set last value to NULL for execvp
+			argc=i; //get argument count
+			strcpy(fullpath,path); //copy /bin/ to file path
+			strcat(fullpath,argv[0]); //add program to path
+
+			for(i=0;i<strlen(fullpath);i++) //delete newline
+			{
+				if(fullpath[i]=='\n')
+				{
+					fullpath[i]='\0';
+				}
+			}
+			int pid=fork(); //fork child
+			if(pid==0) //child
+			{
+				wait();
+				if(strcmp(argv[argc-1],"&")==0) argv[argc-1]='\0';
+				execvp(fullpath,argv);
+			}
+			else	//parent
+			{
+				if(strcmp(argv[argc-1],"&")==0);
+				else wait();
+			//	printf("Keluar dari Child\n");//menunjukkan dia ada di proses parent
+			}
+		}
 }
