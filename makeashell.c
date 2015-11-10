@@ -37,15 +37,16 @@ int main(int argc, char *argv[])
 			{
         			char *arg = strtok(0, DELIMS);
 
-        			if (!arg) fprintf(stderr, "cd missing argument.\n");
+        			if (!arg) fprintf(stderr, "argumen cd masih kurang\n");
         			else chdir(arg);
       			} 
 			else if (strcmp(cmd, "exit") == 0) 
 			{
         			break;
     			} 
+			else system(line);
 
-      			if (errno) perror("Command failed");
+      			if (errno) perror("perintah gagal\n");
     		}
 	}
 	printf("\n");	
