@@ -11,10 +11,8 @@ void *thread1(void *args){
 		(fputc(karakter, out));
 	}
 	fclose (in);
-	fclose (out);
-	
+	fclose (out);	
 }
-
 void *thread2(void *args){
 	FILE *in, *out;
 	char karakter;
@@ -28,11 +26,10 @@ void *thread2(void *args){
 	fclose (out);
 	
 }
-
 int main(){
 	pthread_t t1, t2;
 	pthread_create (&t1, NULL, thread1, NULL);	
-	pthread_join (t1, NULL);
 	pthread_create (&t2, NULL, thread2, NULL);
+	pthread_join (t1,NULL);
 	pthread_join (t2, NULL);
 }
