@@ -51,6 +51,7 @@ int main()
 		char *token; //split command into separate things
 		token=strtok(line," ");
 		int i=0;
+		int temp=0;
 		while(token!=NULL)
 		{
 			argv[i]=token;
@@ -69,10 +70,11 @@ int main()
 				fullpath[i]='\0';
 			}
 		}
+		if(strcmp(argv[argc-1],"&")==0) temp=1;
 		pthread_t pid=fork(); //fork child
 		if(pid==0) //child
 		{
-			//if(strcmp(argv[argc-1],"&")==0) argv[argc-1]='\0';
+			if(strcmp(argv[argc-1],"&")==0) argv[argc-1]='\0';
 			execvp(fullpath,argv);
 			//execvp(NULL,argv);		
 		}
